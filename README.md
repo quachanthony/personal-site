@@ -19,6 +19,7 @@ Open <http://127.0.0.1:8000>. Stop the server with Ctrl+C.
 - `dist/index.html`: page content and structure.
 - `dist/style.css`: layout, responsive styles, and visual presentation.
 - `dist/app.js`: scroll animation and the motion toggle.
+- `dist/assembly.js`: the “Some assembly required” exploded drawings, drawn as isometric SVG and assembled on scroll.
 - `dist/journey.js`: interactive professional journey.
 - `dist/assets/`: illustrations and company logos.
 - `.openai/hosting.json`: existing ChatGPT Sites hosting configuration.
