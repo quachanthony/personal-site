@@ -15,3 +15,4 @@
 /* Phone drawings keep their full composition at their natural aspect ratio. */
 @media(max-width:760px){.workbench figure{margin:25px 0 0}.workbench figure img{width:100%;height:auto;min-height:0;max-height:none;object-fit:contain;object-position:center}.geo-canvas{margin:25px 0 0;width:100%;max-width:100%}.geo-canvas>img{width:100%;height:auto;max-width:100%;object-fit:contain}}
 .popup-company[hidden]{display:none}.popup-company{display:flex;align-items:center;height:34px;margin:13px 0 6px}.popup-company img{display:block;max-width:112px;max-height:32px;width:auto;height:auto;object-fit:contain;object-position:left center}.popup-company img[alt="Seeq"]{max-height:30px;max-width:90px}.journey-popup:has(.popup-company:not([hidden])) h3{margin-top:9px}
+.popup-company img[alt="University of Colorado Boulder"],.popup-company img[alt="Oregon State University"]{max-width:150px;max-height:34px}
