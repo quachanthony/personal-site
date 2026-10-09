@@ -36,4 +36,6 @@ Cloudflare uses these commands:
 
 `wrangler.jsonc` declares `dist/` as the assets directory and includes the empty `previews` block required for branch previews.
 
+GitHub Actions maintains one "Cloudflare preview — latest commit" comment on each open PR from a branch in this repository. On PR updates it reads the current head commit and waits up to five minutes for Cloudflare's result. The comment links to that commit's build details and is updated rather than duplicated. Cloudflare's own comment remains separate. After this workflow is merged to `main`, Cloudflare check events and manual runs from the Actions tab can also refresh comments. No Cloudflare token is required.
+
 The existing ChatGPT Sites preview at <https://anthony-quach-builder.tunedape.chatgpt.site/> is configured and published separately through `.openai/hosting.json`.

@@ -1,0 +1,102 @@
+name: Cloudflare preview status
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  check_run:
+    types: [created, completed]
+  workflow_dispatch:
+
+permissions:
+  checks: read
+  pull-requests: write
+
+# Each run refreshes all open PRs, so queued events can safely be combined.
+concurrency:
+  group: cloudflare-preview-status
+  cancel-in-progress: false
+
+jobs:
+  comment:
+    if: >-
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository) &&
+      (github.event_name != 'check_run' ||
+       (github.event.check_run.app.slug == 'cloudflare-workers-and-pages' &&
+        github.event.check_run.name == 'Workers Builds: personal-site'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      # No PR checkout: this only reads GitHub metadata and updates its own comment.
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          retries: 3
+          script: |
+            const marker = '<!-- personal-site-cloudflare-preview-status -->';
+            const repo = context.repo;
+            async function refresh() {
+              const prs = context.eventName === 'pull_request' ? [
+                (await github.rest.pulls.get({
+                  ...repo, pull_number: context.payload.pull_request.number
+                })).data
+              ] : await github.paginate(github.rest.pulls.list, {
+                ...repo, state: 'open', per_page: 100
+              });
+              let waiting = false;
+              for (const pr of prs) {
+                if (pr.state !== 'open') continue;
+                if (pr.head.repo?.full_name !== `${repo.owner}/${repo.repo}`) continue;
+                const checks = await github.paginate(github.rest.checks.listForRef, {
+                  ...repo, ref: pr.head.sha, filter: 'latest', per_page: 100
+                });
+                const check = checks
+                  .filter(run => run.app?.slug === 'cloudflare-workers-and-pages' &&
+                    run.name === 'Workers Builds: personal-site')
+                  .sort((a, b) => b.id - a.id)[0];
+                let status = '⏳ Waiting for Cloudflare';
+                if (check) {
+                  status = check.status !== 'completed' ? '⏳ Building' :
+                    check.conclusion === 'success' ? '✅ Ready' :
+                    check.conclusion === 'failure' ? '❌ Failed' :
+                    `⚪ ${check.conclusion}`;
+                }
+                waiting ||= !check || check.status !== 'completed';
+                const commit = `[\`${pr.head.sha.slice(0, 7)}\`](https://github.com/${repo.owner}/${repo.repo}/commit/${pr.head.sha})`;
+                const build = check?.details_url ? `[View build](${check.details_url})` : 'Pending';
+                const updated = check?.completed_at || check?.started_at || 'Pending';
+                const body = [
+                  marker,
+                  '### Cloudflare preview — latest commit',
+                  '',
+                  '| Status | Commit | Updated (UTC) | Build details |',
+                  '| --- | --- | --- | --- |',
+                  `| ${status} | ${commit} | ${updated} | ${build} |`,
+                  '',
+                  'This comment follows the latest commit in this PR.'
+                ].join('\n');
+                const comments = await github.paginate(github.rest.issues.listComments, {
+                  ...repo, issue_number: pr.number, per_page: 100
+                });
+                const existing = comments.find(comment =>
+                  comment.user?.login === 'github-actions[bot]' &&
+                  comment.body?.startsWith(marker));
+                if (existing) {
+                  if (existing.body !== body) {
+                    await github.rest.issues.updateComment({
+                      ...repo, comment_id: existing.id, body
+                    });
+                  }
+                } else {
+                  await github.rest.issues.createComment({
+                    ...repo, issue_number: pr.number, body
+                  });
+                }
+              }
+              return waiting;
+            }
+            let waiting = await refresh();
+            const deadline = Date.now() + 5 * 60 * 1000;
+            while (context.eventName === 'pull_request' && waiting && Date.now() < deadline) {
+              await new Promise(resolve => setTimeout(resolve, 10000));
+              waiting = await refresh();
+            }
