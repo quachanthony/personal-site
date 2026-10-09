@@ -22,10 +22,18 @@ Open <http://127.0.0.1:8000>. Stop the server with Ctrl+C.
 - `dist/assembly.js`: the “Some assembly required” exploded drawings, drawn as isometric SVG and assembled on scroll.
 - `dist/journey.js`: interactive professional journey.
 - `dist/assets/`: illustrations and company logos.
+- `wrangler.jsonc`: Cloudflare production and branch-preview configuration.
 - `.openai/hosting.json`: existing ChatGPT Sites hosting configuration.
 
 ## Publishing
 
-The website is hosted by ChatGPT Sites at <https://anthony-quach-builder.tunedape.chatgpt.site/>. Publishing uses the Sites workflow for the existing project in `.openai/hosting.json`.
+Production is hosted by Cloudflare at <https://anthonyquach.com/>. The GitHub integration automatically deploys pushes and merges to `main` after a successful build. No build command or dependency installation is needed for this static site.
 
-Pushing to this GitHub repository does not automatically publish the website.
+Cloudflare uses these commands:
+
+- Production (`main`): `npx wrangler deploy`.
+- Branch previews: `npx wrangler preview`.
+
+`wrangler.jsonc` declares `dist/` as the assets directory and includes the empty `previews` block required for branch previews.
+
+The existing ChatGPT Sites preview at <https://anthony-quach-builder.tunedape.chatgpt.site/> is configured and published separately through `.openai/hosting.json`.
