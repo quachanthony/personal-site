@@ -179,11 +179,12 @@ function pasta(){
   const nest={type:'sprite',at:[0,0,3],size:[14,14,16],r:15,draw:px=>'<ellipse cx="1" cy="1.5" rx="20" ry="8" fill="#16308f" opacity=".55"/>'+LOOPS.map(l=>ribbon(arc(...l),4.2,px,'#f3c351')).join('')};
   const sauce={type:'sprite',at:[0,0,13.5],size:[8,8,5],r:7,draw:px=>`<path class="o" fill="#e5431f" d="M-6.4 2.6q-1.4 4.4.5 5.3q1.9.3 1.6-4.2zM5.2 3q-.5 3.9 1.2 4.1q1.7-.2.7-4.3z"/><path class="o" fill="#e5431f" d="${blob(9.4,.58,1.2)}"/><path d="M-4.4 -.7C-1.8 -3.2 3.2 -2.5 3.7 .2C4.1 2.2 .7 2.8 -1 1.7" fill="none" stroke="#b42f14" stroke-width="${fx(1.4*px)}" stroke-linecap="round"/><ellipse cx="-3.6" cy="-2.2" rx="1.8" ry=".8" fill="#ff9b72"/>`+[[1.8,-3],[-1.2,1.9],[4.8,-.7],[-5.5,1]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r=".45" fill="#2f6d3d"/>`).join('')};
   const tomato=(X,Y,from,t,rot)=>({prims:[{type:'sprite',at:onPlate(X,Y),size:[4,4,3],r:4.5,draw:()=>'<ellipse cx=".6" cy="1.4" rx="5.2" ry="2.6" fill="#16308f" opacity=".5"/><ellipse class="o" rx="5" ry="3.6" fill="#d8372a"/><ellipse cx="-.3" cy="-.35" rx="3.7" ry="2.5" fill="#f06a4e"/>'+[[-1.6,-.5],[1.3,-.9],[.2,.8]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx=".95" ry=".55" fill="#f6c45a"/>`).join('')}],from,t,rot});
+  const meatball=(X,Y,z,from,t,rot,seed)=>({prims:[{type:'sprite',at:onPlate(X,Y,z),size:[5,5,10],r:5.5,draw:()=>`<ellipse cx=".6" cy="1" rx="5.8" ry="2.5" fill="#963621" opacity=".4"/><path class="o" fill="#7c3d25" d="${blob(5.4,.94,seed)}" transform="translate(0 -4.4)"/><path fill="#b06a3d" d="M-4.3 -5.2C-4.2 -9.1 1.5 -9.9 3.2 -6.8C1.2 -7.3 -.8 -4.1 -4.3 -5.2Z"/><path fill="#e5431f" d="M-3 -.5Q-.4 -2.6 2.7 -1.1Q4.4 -.2 2.5 .8Q.2 -.2 -2.1 1Z"/>`+[[-2.9,-6.8],[.5,-7.4],[3.1,-4.1],[-2,-3.2],[.7,-4.8],[2,-1.9]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="${i%2?.45:.65}" fill="${i%2?'#d69b62':'#542b1d'}"/>`).join('')+'<circle cx="-1.3" cy="-5.4" r=".4" fill="#3f6a36"/><circle cx="2.6" cy="-6" r=".35" fill="#3f6a36"/>'}],from,t,rot});
   const SHARDS=[[[-13.4,.4],[-9.6,-2.4],[-8.6,1.4]],[[8.8,-4.6],[12.8,-5],[11.4,-1.6]],[[-4.8,4.6],[-1,3.6],[-2.6,6.6]],[[10.2,2.4],[13.4,1.6],[12.4,4.8]]];
   const parm={type:'sprite',at:[0,0,15],size:[8,8,3],r:7,draw:()=>SHARDS.map(s=>`<path class="o" fill="#fdf8e8" d="${d(s)}"/>`).join('')};
   const basil={type:'sprite',at:[0,0,18.5],size:[6,6,2],r:5,draw:px=>leaf(.5,0,-28,9.5,3.6,px)+leaf(0,.4,205,8,3.1,px)+leaf(-.4,.6,118,6,2.5,px)};
   const overlay=(local,P)=>{
-    const r=smooth(clamp((local-.84)/.1));if(!r)return'';
+    const r=smooth(clamp((local-.88)/.08));if(!r)return'';
     const[x,y]=P([0,0,25]);
     return`<g transform="translate(${fx(x)} ${fx(y)}) scale(${fx(P.s)})" fill="none" stroke="${INK}" stroke-linecap="round" opacity=".7">`+[-6,0,6].map((x0,i)=>`<path pathLength="1" stroke-dasharray="1" stroke-dashoffset="${fx(1-r)}" stroke-width="${fx(1.4/P.s)}" d="M${x0} ${i===1?-2:0}c-3 -3 3 -6 0 -9s3 -6 0 -9"/>`).join('')+'</g>';
   };
@@ -192,8 +193,9 @@ function pasta(){
     {id:'B',name:'Tagliatelle',t:[.13,.29],from:[-8,-8,50],rot:-16,items:[nest]},
     {id:'C',name:'Sauce',t:[.28,.41],from:[32,-24,44],rot:28,items:[sauce]},
     {id:'D',name:'Tomatoes ×3',items:[tomato(21,4,[18,-38,24],[.4,.51],48),tomato(-22,6,[-25,25,22],[.44,.55],-56),tomato(8,13,[37,-43,18],[.48,.59],34)]},
-    {id:'E',name:'Parmesan',t:[.57,.69],from:[-30,34,36],rot:-30,items:[parm]},
-    {id:'F',name:'Basil',t:[.67,.8],from:[-29,5,50],rot:70,items:[basil]}]};
+    {id:'E',name:'Meatballs ×3',items:[meatball(-11,3,8,[-30,-15,36],[.49,.59],-38,1),meatball(12,2,10,[25,-25,47],[.54,.64],42,2),meatball(-1,-7,12,[0,0,54],[.59,.69],-22,3)]},
+    {id:'F',name:'Parmesan',t:[.67,.77],from:[-30,34,36],rot:-30,items:[parm]},
+    {id:'G',name:'Basil',t:[.76,.86],from:[-29,5,50],rot:70,items:[basil]}]};
 }
 
 // Back-to-front order: a piece is behind another when the two are separated along any axis.
