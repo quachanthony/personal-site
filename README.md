@@ -25,6 +25,12 @@ Open <http://127.0.0.1:8000>. Stop the server with Ctrl+C.
 - `wrangler.jsonc`: Cloudflare production and branch-preview configuration.
 - `.openai/hosting.json`: existing ChatGPT Sites hosting configuration.
 
+## Social sharing
+
+The homepage declares Open Graph metadata with the production URL and a 1200 × 627 JPEG at `dist/assets/social-preview.jpg`. The image is only used for shared-link previews.
+
+Its editable layout is `tools/social-preview.html`. To regenerate it, serve the repository root locally, open `/tools/social-preview.html` at a 1200 × 627 viewport, wait for the fonts and illustration to load, and export a JPEG screenshot to the same asset path.
+
 ## Publishing
 
 Production is hosted by Cloudflare at <https://anthonyquach.com/>. The GitHub integration automatically deploys pushes and merges to `main` after a successful build. No build command or dependency installation is needed for this static site.
