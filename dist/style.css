@@ -136,3 +136,31 @@ body.no-motion .assembly-sheet{position:relative;inset:auto;aspect-ratio:1/1.05;
 .about-social{display:flex;flex-wrap:wrap;gap:18px 28px}
 .about-social a{display:inline-flex;align-items:center;gap:8px;min-height:44px;font:18px/1.5 var(--mono);text-decoration:underline;text-underline-offset:8px;text-decoration-thickness:1px}
 .about-social a:hover{text-decoration-thickness:2px}
+
+/* The van page: the plan puts a Sprinter together on arrival, shell first. */
+.van-plan{height:auto}
+.van-plan .assembly-pin{position:relative;height:calc(100svh - 92px);min-height:600px;grid-template-columns:minmax(280px,.62fr) 1.9fr}
+.van-plan h1{font:700 clamp(72px,8vw,136px)/.82 var(--display);letter-spacing:-.025em;margin:0}
+.van-plan h1 em{font-style:normal;color:var(--orange)}
+.van-plan .assembly-parts{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(7,auto);grid-auto-flow:column;column-gap:16px}
+.van-plan .assembly-parts li{min-height:31px;gap:9px;font-size:13px}
+.van-plan .assembly-parts li>span{width:21px;height:21px;font-size:10px}
+.van-plan .assembly-parts li>b{font-size:11px}
+.van-replay{align-self:flex-start;margin-top:18px;border:1px solid var(--ink);border-radius:30px;padding:9px 14px;color:inherit;background:transparent;font:12px var(--mono);cursor:pointer}
+.van-replay:hover{background:var(--ink);color:var(--paper)}
+.van-end{padding:70px 4.5% 90px;border-top:1px solid var(--line)}
+.van-end h2{font:700 clamp(56px,7vw,110px)/.9 var(--display);letter-spacing:-.02em;margin:34px 0 26px}
+.van-end h2 em{font-style:normal;color:var(--blue)}
+@media(max-width:760px){
+.van-plan .assembly-pin{grid-template-columns:1fr;grid-template-rows:auto auto minmax(0,1fr) auto auto auto;height:calc(100svh - 76px);min-height:620px}
+.van-plan h1{grid-row:2;margin-top:14px;font-size:clamp(46px,14vw,64px)}
+.van-plan h1 br{display:none}
+.van-plan .assembly-parts.is-current{display:none}
+.van-replay{grid-row:6;justify-self:start;margin-top:12px;font-size:11px;padding:8px 12px}
+.van-end{padding:50px 5% 65px}
+}
+@media(max-height:620px) and (min-width:761px){.van-plan h1{font-size:clamp(44px,5vw,72px)}.van-plan .assembly-parts{display:none}}
+body.no-motion .van-replay{display:none}
+body.no-motion .van-plan .assembly-stage{display:block;aspect-ratio:16/11;margin-top:34px;border:1px solid var(--ink);overflow:hidden}
+body.no-motion .van-plan .assembly-sheet{position:absolute;inset:0;aspect-ratio:auto;border:0}
+@media(max-width:760px){body.no-motion .van-plan .assembly-stage{aspect-ratio:1/1.05}}
