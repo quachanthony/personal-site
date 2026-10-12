@@ -21,6 +21,8 @@ Open <http://127.0.0.1:8000>. Stop the server with Ctrl+C.
 - `dist/app.js`: scroll animation and the motion toggle.
 - `dist/assembly.js`: the “Some assembly required” exploded drawings, drawn as isometric SVG and assembled on scroll.
 - `dist/journey.js`: interactive professional journey.
+- `dist/van/index.html`: the van build page, served at `/van/`.
+- `dist/van.js`: “The Plan” on the van page, which plays on arrival: an empty Sprinter drives in, its roof lifts off, and the build drops in. Same isometric drawing approach as `assembly.js`.
 - `dist/assets/`: illustrations and company logos.
 - `wrangler.jsonc`: Cloudflare production and branch-preview configuration.
 - `.openai/hosting.json`: existing ChatGPT Sites hosting configuration.
