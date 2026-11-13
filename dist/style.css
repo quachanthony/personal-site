@@ -164,3 +164,67 @@ body.no-motion .van-replay{display:none}
 body.no-motion .van-plan .assembly-stage{display:block;aspect-ratio:16/11;margin-top:34px;border:1px solid var(--ink);overflow:hidden}
 body.no-motion .van-plan .assembly-sheet{position:absolute;inset:0;aspect-ratio:auto;border:0}
 @media(max-width:760px){body.no-motion .van-plan .assembly-stage{aspect-ratio:1/1.05}}
+
+/* Build notes: long-form write-ups under /van/, written to be read and to be found by search. */
+.van-notes{list-style:none;margin:28px 0 0;padding:0;border-top:1px solid var(--ink)}
+.van-notes a{display:grid;grid-template-columns:minmax(150px,.3fr) 1fr auto;align-items:baseline;gap:8px 24px;padding:22px 0;border-bottom:1px solid var(--ink)}
+.van-notes span,.van-notes em{font:12px/1.5 var(--mono);font-style:normal;letter-spacing:.035em}
+.van-notes strong{font:600 clamp(26px,2.6vw,38px)/1.1 var(--display);letter-spacing:-.01em}
+.van-notes a:hover strong,.van-notes a:hover em{color:var(--blue)}
+.van-notes+h2{margin-top:64px}
+.note-hero{padding:38px 4.5% 64px}
+.note-crumbs{display:flex;flex-wrap:wrap;gap:8px 10px;padding-bottom:22px;border-bottom:1px solid var(--line);font:12px/1.5 var(--mono);letter-spacing:.035em}
+.note-crumbs a{border-bottom:1px solid var(--line)}
+.note-crumbs a:hover{color:var(--blue);border-color:var(--blue)}
+.note-hero-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:center;gap:6%;padding-top:54px}
+.note-hero h1{font:700 clamp(54px,6.2vw,104px)/.88 var(--display);letter-spacing:-.02em;margin:22px 0 30px}
+.note-hero h1 em{font-style:normal;color:var(--orange)}
+.note-lede{font-size:20px;line-height:1.55;max-width:560px;margin:0 0 30px}
+.note-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px}
+.note-button{display:inline-block;border:1px solid var(--ink);border-radius:30px;padding:12px 20px;background:var(--ink);color:var(--paper);font:14px/1.5 var(--mono)}
+.note-button:hover{background:var(--blue);border-color:var(--blue)}
+.note-device{margin:0;padding:0 4% 0 2%}
+.note-device svg{display:block;width:100%;height:auto;transform:rotate(2deg);filter:drop-shadow(12px 12px 0 var(--mint))}
+.note-device figcaption{margin-top:34px;font:11px/1.5 var(--mono);letter-spacing:.035em;color:#536058}
+.note-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);background:var(--mint)}
+.note-facts>div{padding:22px 4.5% 24px;border-left:1px solid var(--ink)}
+.note-facts>div:first-child{border-left:0;padding-left:18%}
+.note-facts dt{font:12px/1.5 var(--mono);letter-spacing:.035em}
+.note-facts dd{margin:8px 0 0;font:600 clamp(22px,2.1vw,32px)/1.1 var(--display);letter-spacing:-.01em}
+.note-body{padding:20px 4.5% 80px}
+.note-section{display:grid;grid-template-columns:minmax(170px,.34fr) minmax(0,1fr);gap:5%;padding:56px 0;border-bottom:1px solid var(--line);scroll-margin-top:20px}
+.note-section:last-child{border-bottom:0}
+.note-section>div{max-width:720px}
+.note-section h2{font:700 clamp(38px,4vw,64px)/.94 var(--display);letter-spacing:-.02em;margin:0 0 26px}
+.note-section p,.note-section li{font-size:18px;line-height:1.65}
+.note-section p{margin:0 0 18px}
+.note-section p a,.note-section li a{color:var(--blue);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.note-section p a:hover,.note-section li a:hover{text-decoration-thickness:2px}
+.note-section code{font:.86em var(--mono);background:#1c292214;padding:2px 6px;overflow-wrap:anywhere}
+.note-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.note-list li{position:relative;padding:14px 0 14px 46px;border-bottom:1px solid var(--line)}
+.note-list li:last-child{border-bottom:0;padding-bottom:0}
+.note-list li::before{content:"";position:absolute;left:8px;top:25px;width:10px;height:10px;background:var(--orange)}
+@media(max-width:900px){
+.note-hero-grid{grid-template-columns:1fr;gap:44px;padding-top:36px}
+.note-device{max-width:520px;padding:0 5% 0 0}
+.note-facts{grid-template-columns:1fr 1fr}
+.note-facts>div,.note-facts>div:first-child{padding:18px 5% 20px 9%}
+.note-facts>div:nth-child(odd){border-left:0}
+.note-facts>div:nth-child(n+3){border-top:1px solid var(--ink)}
+}
+@media(max-width:760px){
+.van-notes a{grid-template-columns:1fr;padding:18px 0}
+.van-notes+h2{margin-top:44px}
+.note-hero{padding:27px 5% 44px}
+.note-hero h1{font-size:clamp(44px,13vw,60px);margin:16px 0 22px}
+.note-lede{font-size:17px}
+.note-device svg{filter:drop-shadow(8px 8px 0 var(--mint))}
+.note-device figcaption{font-size:10px;margin-top:26px}
+.note-body{padding:6px 5% 50px}
+.note-section{grid-template-columns:1fr;gap:14px;padding:40px 0}
+.note-section h2{font-size:38px;margin-bottom:20px}
+.note-section p,.note-section li{font-size:16px}
+.note-list li{padding-left:40px}
+.note-list li::before{top:22px}
+}

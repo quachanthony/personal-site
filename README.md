@@ -22,6 +22,8 @@ Open <http://127.0.0.1:8000>. Stop the server with Ctrl+C.
 - `dist/assembly.js`: the “Some assembly required” exploded drawings, drawn as isometric SVG and assembled on scroll.
 - `dist/journey.js`: interactive professional journey.
 - `dist/van/index.html`: the van build page, served at `/van/`.
+- `dist/van/ecoflow-river-2-pro-battery-monitor/index.html`: build note for the EcoFlow battery monitor, written to be found by search. It carries its own title, description, canonical URL, Open Graph tags, and JSON-LD (article and breadcrumb).
+- `dist/sitemap.xml` and `dist/robots.txt`: the list of pages for search engines. Add each new page to the sitemap.
 - `dist/van.js`: “The Plan” on the van page, which plays on arrival: an empty Sprinter drives in, its roof lifts off, and the build drops in. Same isometric drawing approach as `assembly.js`.
 - `dist/assets/`: illustrations and company logos.
 - `wrangler.jsonc`: Cloudflare production and branch-preview configuration.

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#efefdf"><meta name="description" content="How I added an always-on battery monitor to the EcoFlow River 2 Pro in my van: one ESP32 touchscreen board over Bluetooth. No wiring, no app, no cloud."><title>DIY battery monitor for the EcoFlow River 2 Pro — van build</title>
+<link rel="canonical" href="https://anthonyquach.com/van/ecoflow-river-2-pro-battery-monitor/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Anthony Quach">
+<meta property="og:title" content="DIY battery monitor for the EcoFlow River 2 Pro">
+<meta property="og:description" content="An always-on touchscreen for a portable power station in a van build. One ESP32 board over Bluetooth. No wiring, no app, no cloud.">
+<meta property="og:url" content="https://anthonyquach.com/van/ecoflow-river-2-pro-battery-monitor/">
+<meta property="og:image" content="https://anthonyquach.com/assets/social-preview.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta property="og:image:alt" content="Anthony Quach: I’m a builder. An illustrated workbench with code, a camper van and Reggie, woodworking, and food.">
+<meta property="article:published_time" content="2026-11-12">
+<meta property="article:author" content="Anthony Quach">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23ef4825'/%3E%3Cpath d='M7 24 14 7h5l7 17h-6l-1-4h-7l-1 4zm7-9h4l-2-5z' fill='%231b241e'/%3E%3C/svg%3E"><link rel="stylesheet" href="../../style.css"><script src="../../app.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://anthonyquach.com/van/ecoflow-river-2-pro-battery-monitor/#article",
+      "headline": "DIY battery monitor for the EcoFlow River 2 Pro",
+      "description": "How to add an always-on battery monitor to an EcoFlow River 2, River 2 Max or River 2 Pro portable power station in a van build, using one ESP32 touchscreen board over Bluetooth LE.",
+      "url": "https://anthonyquach.com/van/ecoflow-river-2-pro-battery-monitor/",
+      "mainEntityOfPage": "https://anthonyquach.com/van/ecoflow-river-2-pro-battery-monitor/",
+      "datePublished": "2026-11-12",
+      "dateModified": "2026-11-12",
+      "inLanguage": "en",
+      "image": "https://anthonyquach.com/assets/social-preview.jpg",
+      "author": {"@type": "Person", "name": "Anthony Quach", "url": "https://anthonyquach.com/"},
+      "publisher": {"@type": "Person", "name": "Anthony Quach", "url": "https://anthonyquach.com/"},
+      "about": ["EcoFlow River 2 Pro", "Portable power station", "Battery monitor", "Camper van electrical system", "ESP32", "Bluetooth Low Energy"],
+      "keywords": "EcoFlow River 2 Pro battery monitor, EcoFlow River 2 remote display, portable power station battery monitor, van build battery monitor, ESP32 Cheap Yellow Display, EcoFlow Bluetooth",
+      "proficiencyLevel": "Beginner",
+      "isBasedOn": "https://github.com/quachanthony/ecoflow-monitor"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Anthony Quach", "item": "https://anthonyquach.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Van build", "item": "https://anthonyquach.com/van/"},
+        {"@type": "ListItem", "position": 3, "name": "EcoFlow River 2 Pro battery monitor", "item": "https://anthonyquach.com/van/ecoflow-river-2-pro-battery-monitor/"}
+      ]
+    }
+  ]
+}
+</script></head>
+<body><a class="skip" href="#note">Skip to the build note</a><div class="progress" aria-hidden="true"></div>
+<header><a class="wordmark" href="../../">ANTHONY<br>QUACH<span>®</span></a><nav aria-label="Main navigation"><a href="../../#work">The work</a><a href="../../#about">The person</a><button id="motion" type="button" aria-pressed="false">Motion on</button></nav><span class="location">PORTLAND, OR<br>45.52° N / 122.68° W</span></header>
+<main id="top">
+<article id="note">
+<section class="note-hero">
+<nav class="note-crumbs" aria-label="Breadcrumb"><a href="../../">Home</a><span aria-hidden="true">/</span><a href="../">Van build</a><span aria-hidden="true">/</span><span aria-current="page">Build note 01</span></nav>
+<div class="note-hero-grid">
+<div>
+<span class="eyebrow">VAN BUILD / ELECTRICAL / DONE AND DUSTED</span>
+<h1>A battery monitor for <em>my van’s power station.</em></h1>
+<p class="note-lede">My van runs on an EcoFlow River 2 Pro. To see how much battery is left, you look at the unit itself or open the phone app. I wanted a small screen that is always there, so I built one.</p>
+<div class="note-actions"><a class="note-button" href="https://github.com/quachanthony/ecoflow-monitor">Get the code on GitHub <span aria-hidden="true">↗</span></a></div>
+</div>
+<figure class="note-device">
+<svg viewBox="0 0 400 300" role="img" aria-label="Illustration of the monitor: a yellow circuit board with a small touchscreen. The header reads Connected with a green dot. The screen shows the battery at 78.4 percent, 96 watts coming in, 41 watts going out, and 2 hours 10 minutes to full. Below are two large buttons: AC ON in green and 12V OFF in grey.">
+<rect x="8" y="8" width="384" height="284" rx="14" fill="#f2c94c" stroke="#1c2922" stroke-width="2"/>
+<g fill="#f1f1e7" stroke="#1c2922" stroke-width="1.5"><circle cx="24" cy="24" r="6"/><circle cx="376" cy="24" r="6"/><circle cx="24" cy="276" r="6"/><circle cx="376" cy="276" r="6"/></g>
+<g transform="translate(40 30)" font-family="'Space Mono',monospace">
+<rect width="320" height="240" fill="#000" stroke="#1c2922" stroke-width="2"/>
+<rect width="320" height="24" fill="#181c18"/>
+<circle cx="12" cy="12" r="5" fill="#00c800"/>
+<text x="24" y="17" font-size="13" fill="#fff">Connected</text>
+<text x="312" y="17" font-size="13" fill="#787c78" text-anchor="end">R621…</text>
+<text x="10" y="82" font-size="50" font-weight="700" fill="#fff" letter-spacing="-2">78.4</text>
+<text x="136" y="82" font-size="24" fill="#787c78">%</text>
+<text x="12" y="107" font-size="13" fill="#787c78">2h10m to full</text>
+<text x="200" y="46" font-size="13" fill="#787c78">IN</text>
+<text x="200" y="71" font-size="24" fill="#00c800">96W</text>
+<text x="200" y="90" font-size="13" fill="#787c78">OUT</text>
+<text x="200" y="115" font-size="24" fill="#fff">41W</text>
+<rect x="10" y="130" width="145" height="86" rx="10" fill="#00ac00" stroke="#787c78"/>
+<text x="82.5" y="182" font-size="24" fill="#fff" text-anchor="middle">AC ON</text>
+<rect x="165" y="130" width="145" height="86" rx="10" fill="#383c38" stroke="#787c78"/>
+<text x="237.5" y="182" font-size="24" fill="#fff" text-anchor="middle">12V OFF</text>
+</g>
+</svg>
+<figcaption>THE SCREEN, DRAWN TO THE FIRMWARE’S LAYOUT. 320 × 240, 2.8 IN.</figcaption>
+</figure>
+</div>
+</section>
+<dl class="note-facts">
+<div><dt>Works with</dt><dd>River 2 / 2 Max / 2 Pro</dd></div>
+<div><dt>Parts</dt><dd>One board, one USB cable</dd></div>
+<div><dt>Wiring</dt><dd>None</dd></div>
+<div><dt>Build time</dt><dd>About 30 minutes</dd></div>
+</dl>
+<div class="note-body">
+<section class="note-section" aria-labelledby="why-title"><span class="eyebrow">01 / THE PROBLEM</span><div>
+<h2 id="why-title">Why a power station needs its own monitor.</h2>
+<p>A portable power station is the simplest way to put electricity in a camper van. Battery, inverter, solar charge controller and 12V socket in one box. Nothing to wire, nothing to fuse.</p>
+<p>Mine sits above the wheel well, under the bed. So this monitor is mostly about convenience. I don’t want to crawl under there every time I need to check the charge or switch an outlet.</p>
+<p>The battery already measures its own charge and power. It sends those numbers to the EcoFlow app over Bluetooth. This project is a small screen that listens to the same numbers, so they are on display all the time.</p>
+</div></section>
+<section class="note-section" aria-labelledby="does-title"><span class="eyebrow">02 / WHAT IT DOES</span><div>
+<h2 id="does-title">The numbers that matter, and two switches.</h2>
+<ul class="note-list">
+<li><strong>Battery percentage</strong>, to one decimal place.</li>
+<li><strong>Watts in and watts out</strong>, so you can see what solar is delivering and what the fridge is pulling.</li>
+<li><strong>Time left</strong>, or time to full while it is charging.</li>
+<li><strong>AC and 12V buttons</strong> that switch the outlets and the car socket on and off. Each button changes colour only once the battery confirms it has switched.</li>
+<li><strong>Screen sleep.</strong> The backlight goes dark after a minute so it doesn’t shine in my face at night. It wakes up with a tap.</li>
+<li><strong>Reconnects by itself</strong> after the battery is switched off or goes out of range.</li>
+<li><strong>No phone, no Wi-Fi, no cloud.</strong> It works in a campsite with no signal.</li>
+</ul>
+</div></section>
+<section class="note-section" aria-labelledby="parts-title"><span class="eyebrow">03 / THE PARTS</span><div>
+<h2 id="parts-title">One board. One cable.</h2>
+<ul class="note-list">
+<li><strong>ESP32-2432S028R</strong>, better known as the Cheap Yellow Display. It is an ESP32 with Bluetooth, a 2.8-inch touchscreen and a USB port, on one board that arrives fully built.</li>
+</ul>
+</div></section>
+<section class="note-section" aria-labelledby="how-title"><span class="eyebrow">04 / HOW IT WORKS</span><div>
+<h2 id="how-title">It talks to the battery the way the app does.</h2>
+<p>The River 2 series advertises itself over Bluetooth LE. The board finds it, does the same encrypted handshake the EcoFlow app does, and proves it belongs to you with your EcoFlow account’s user id. After that the battery sends a status update every few seconds, and the board draws it.</p>
+<p>I didn’t reverse-engineer the protocol myself. It is ported to C++ from <a href="https://github.com/rabits/ha-ef-ble">rabits/ha-ef-ble</a>, the Home Assistant integration that worked it out.</p>
+</div></section>
+</div>
+</article>
+<section class="van-end" aria-labelledby="note-end-title"><span class="eyebrow">VAN BUILD / BUILD NOTE 01</span><h2 id="note-end-title">One part of<br><em>a bigger build.</em></h2><a class="back-top" href="../">SEE THE PLAN FOR THE VAN</a></section>
+</main><footer><span>ANTHONY QUACH</span><span>ALWAYS A WORK IN PROGRESS.</span><span>PORTLAND, OREGON</span></footer></body></html>
